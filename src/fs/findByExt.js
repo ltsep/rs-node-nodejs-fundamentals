@@ -1,4 +1,4 @@
-import { access, readFile, readdir, stat } from 'fs/promises';
+import { access, readdir } from 'fs/promises';
 import { join, relative } from 'path';
 import { parseArgs } from 'util';
 
