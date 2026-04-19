@@ -34,17 +34,18 @@ async function readDirRecursively(dir) {
   const dirents = await readdir(dir, { withFileTypes: true });
   const entries = [];
 
-  for (const entry of dirents) {
-    const path = join(dir, entry.name);
-    const relativePath = relative(process.cwd(), path);
-    const { size } = await stat(path);
-    if (entry.isDirectory()) {
+  for (const ent of dirents) {
+    const entPath = join(dir, ent.name);
+    const relativePath = relative(process.cwd(), entPath);
+    const { size } = await stat(entPath);
+
+    if (ent.isDirectory()) {
       entries.push(
         { path: relativePath, type: 'directory' },
-        ...(await readDirRecursively(path))
+        ...(await readDirRecursively(entPath))
       );
     } else {
-      const content = await readFile(path, 'base64');
+      const content = await readFile(entPath, 'base64');
       entries.push({ path: relativePath, type: 'file', size, content });
     }
   }
